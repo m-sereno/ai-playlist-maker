@@ -1,9 +1,25 @@
 import Head from "next/head";
 import { useState } from "react";
-import styles from "./index.module.css";
+import { Box, Button, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#1DB954',
+    },
+    secondary: {
+      main: '#7830BA',
+    },
+  },
+  typography: {
+    fontFamily: 'Montserrat',
+  },
+});
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [songsDescriptionInput, setSongsDescriptionInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,7 +30,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ songsDescription: songsDescriptionInput }),
       });
 
       const data = await response.json();
@@ -23,8 +39,8 @@ export default function Home() {
       }
 
       setResult(data.result);
-      setAnimalInput("");
-    } catch(error) {
+      setSongsDescriptionInput("");
+    } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
       alert(error.message);
@@ -32,27 +48,37 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+
       <Head>
-        <title>OpenAI Quickstart</title>
-        <link rel="icon" href="/dog.png" />
+        <title>Playlist Maker</title>
+        <link rel="icon" href="/playlist.png" />
       </Head>
 
-      <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
-        <form onSubmit={onSubmit}>
-          <input
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 15 }}>
+        <PlaylistAddIcon color="primary" fontSize="large" />
+        <Typography variant="h3">
+          Describe the songs in the Playlist
+        </Typography>
+        <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5}}>
+          <TextField
+            multiline minRows={4}
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="songsDescription"
+            label="Description"
+            placeholder={"Songs about War.\nThe main instrument is a guitar, and there are vocals."}
+            value={songsDescriptionInput}
+            onChange={(e) => setSongsDescriptionInput(e.target.value)}
+            fullWidth
           />
-          <input type="submit" value="Generate names" />
-        </form>
-        <div className={styles.result}>{result}</div>
-      </main>
-    </div>
+          <Button type="submit" variant="contained" value="Generate recommendations" sx={{my: 2}}>
+            Submit
+          </Button>
+        </Box>
+        <Typography whiteSpace="pre">{result}</Typography>
+      </Box>
+
+    </ThemeProvider>
   );
 }
