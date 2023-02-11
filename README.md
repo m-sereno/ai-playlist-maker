@@ -1,4 +1,4 @@
-# AI Assisted Playlist Maker
+# AI Assisted Playlist Maker 🎵
 
 This is an AI Assisted Playlist Maker app powered by the OpenAI API and the Spotify API. It uses the [Next.js](https://nextjs.org/) framework with [React](https://reactjs.org/). Check out the tutorial or follow the instructions below to get set up.
 
