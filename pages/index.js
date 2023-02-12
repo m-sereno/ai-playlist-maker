@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
-import { Box, Button, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Box, Button, Container, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import TrackView from "../components/TrackView";
 
@@ -57,31 +57,33 @@ export default function Home() {
         <link rel="icon" href="/playlist.png" />
       </Head>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 8 }}>
-        <PlaylistAddIcon color="primary" fontSize="large" />
-        <Typography variant="h3">
-          Describe the songs in the Playlist
-        </Typography>
-        <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5 }}>
-          <TextField
-            multiline minRows={4}
-            type="text"
-            name="songsDescription"
-            label="Description"
-            placeholder={"Songs about War.\nThe main instrument is a guitar, and there are vocals."}
-            value={songsDescriptionInput}
-            onChange={(e) => setSongsDescriptionInput(e.target.value)}
-            fullWidth
-          />
-          <Button type="submit" variant="contained" value="Generate recommendations" sx={{ my: 2 }}>
-            Submit
-          </Button>
+      <Container>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 8 }}>
+          <PlaylistAddIcon color="primary" fontSize="large" />
+          <Typography variant="h3">
+            Describe the songs in the Playlist
+          </Typography>
+          <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5 }}>
+            <TextField
+              multiline minRows={4}
+              type="text"
+              name="songsDescription"
+              label="Description"
+              placeholder={"Songs about War.\nThe main instrument is a guitar, and there are vocals."}
+              value={songsDescriptionInput}
+              onChange={(e) => setSongsDescriptionInput(e.target.value)}
+              fullWidth
+            />
+            <Button type="submit" variant="contained" value="Generate recommendations" sx={{ my: 2 }}>
+              Submit
+            </Button>
+          </Box>
+          <Box minWidth={theme.spacing(100)}>
+            {result == undefined ?
+              "" : result.map((e, index) => <TrackView trackInfo={e} key={index} />)}
+          </Box>
         </Box>
-        <Box>
-          {result == undefined ?
-            "" : result.map((e, index) => <TrackView trackInfo={e} key={index} />)}
-        </Box>
-      </Box>
+      </Container>
 
     </ThemeProvider>
   );
