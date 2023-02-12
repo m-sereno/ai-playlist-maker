@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { Box, Button, createTheme, CssBaseline, TextField, ThemeProvider, Typography } from "@mui/material";
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import TrackView from "../components/TrackView";
 
 const theme = createTheme({
   palette: {
@@ -25,7 +26,7 @@ export default function Home() {
   async function onSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("/api/getTracksFromDescription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,12 +57,12 @@ export default function Home() {
         <link rel="icon" href="/playlist.png" />
       </Head>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 15 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 8 }}>
         <PlaylistAddIcon color="primary" fontSize="large" />
         <Typography variant="h3">
           Describe the songs in the Playlist
         </Typography>
-        <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5}}>
+        <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5 }}>
           <TextField
             multiline minRows={4}
             type="text"
@@ -72,11 +73,14 @@ export default function Home() {
             onChange={(e) => setSongsDescriptionInput(e.target.value)}
             fullWidth
           />
-          <Button type="submit" variant="contained" value="Generate recommendations" sx={{my: 2}}>
+          <Button type="submit" variant="contained" value="Generate recommendations" sx={{ my: 2 }}>
             Submit
           </Button>
         </Box>
-        <Typography whiteSpace="pre">{result}</Typography>
+        <Box>
+          {result == undefined ?
+            "" : result.map(e => <TrackView trackInfo={e} />)}
+        </Box>
       </Box>
 
     </ThemeProvider>
