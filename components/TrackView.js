@@ -10,7 +10,7 @@ export default function TrackView({ trackInfo }) {
       <Box display="flex" flexDirection="column" sx={{ ml: 1 }}>
         <Typography variant="h6">{trackInfo.trackName}</Typography>
         <Typography variant="body2" color={theme.palette.grey[400]}>{trackInfo.artist}</Typography>
-        <AudioPlayer url={trackInfo.audioPreviewUrl} />
+        <AudioPlayer key={trackInfo.audioPreviewUrl} url={trackInfo.audioPreviewUrl} />
       </Box>
     </Box>
   );

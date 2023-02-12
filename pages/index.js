@@ -79,7 +79,7 @@ export default function Home() {
         </Box>
         <Box>
           {result == undefined ?
-            "" : result.map(e => <TrackView trackInfo={e} />)}
+            "" : result.map((e, index) => <TrackView trackInfo={e} key={index} />)}
         </Box>
       </Box>
 
