@@ -1,5 +1,6 @@
 import generateTextCompletion from "./_generateTextCompletion";
 import getMusicInformation from "./_getMusicInformation";
+import isItTheSameSong from "./_isItTheSameSong";
 
 export default async function getTracksFromDescription(description) {
   console.debug(`\nDescription:\n ${description}`);
@@ -12,7 +13,10 @@ export default async function getTracksFromDescription(description) {
 
   await Promise.all(songStrings.map(async (trackStr, index) => {
     try {
-      const trackInformation = await getMusicInformation(trackStr);
+      var trackInformation = await getMusicInformation(trackStr);
+      const doSongsMatch = await isItTheSameSong(trackStr, trackInformation.trackName, trackInformation.artist);
+      trackInformation.match = doSongsMatch.toLowerCase().replace(/[^a-z]/g, "") == "yes";
+
       tracks[index] = trackInformation;
     } catch (error) {
       console.error(`Error when retrieving music information for \'${trackStr}\': ${error.message}`);
@@ -24,6 +28,7 @@ export default async function getTracksFromDescription(description) {
       gptGiven: str,
       spotifyResultSong: tracks[index]?.trackName,
       spotifyResultArtist: tracks[index]?.artist,
+      match: tracks[index]?.match
     }
   });
   console.debug('Track Information:');
