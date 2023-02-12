@@ -30,7 +30,7 @@ This is an AI Assisted Playlist Maker app powered by the [OpenAI API](https://pl
    ```powershell
    $ copy .env.example .env
    ```
-6. Add your [API key](https://beta.openai.com/account/api-keys) to the newly created `.env` file
+6. Add your [OpenAI API key](https://beta.openai.com/account/api-keys) and [Spotify API credentials](https://developer.spotify.com/dashboard) to the newly created `.env` file
 
 7. Run the app
 
