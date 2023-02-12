@@ -23,7 +23,7 @@ export default async function isItTheSameSong(songStringPre, songTitleFound, son
 }
 
 function generatePrompt(songStringPre, songStringResult) {
-  return `Check if the 2 provided ways to display a song name refer to the same song.
+  return `Check if the 2 provided ways to display a song name refer to the same song. A version by another artist is considered acceptable.
 Examples:
 
 Song 1: Iron Maiden | The Trooper
@@ -40,7 +40,7 @@ Match: No
 
 Song 1: Stevie Wonder | Higher Ground
 Song 2: Red Hot Chilli Peppers | Higher Ground - Remastered 2003
-Match: No
+Match: Yes
 
 Song 1: Johnny Cash | Ghost Riders In The Sky
 Song 2: Johnny Cash | (Ghost) Riders In The Sky
@@ -68,7 +68,7 @@ Match: No
 
 Song 1: Metallica | Whiskey In The Jar
 Song 2: The Dubliners | Whiskey In The Jar
-Match: No
+Match: Yes
 
 Song 1: Bob Marley | Is This Love
 Song 2: Bob Marley & The Wailers | Is This Love
