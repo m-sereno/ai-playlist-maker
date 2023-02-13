@@ -2,10 +2,10 @@ import generateTextCompletion from "./_generateTextCompletion";
 import getMusicInformation from "./_getMusicInformation";
 import isItTheSameSong from "./_isItTheSameSong";
 
-function splitNameAndArtist(trackStr) {
+function splitArtistAndName(trackStr) {
   var str = trackStr.slice(2);
 
-  var [trackName, artist] = str.split('|').map(s => s.trim());
+  var [artist, trackName] = str.split('|').map(s => s.trim());
   return { trackName: trackName, artist: artist };
 }
 
@@ -20,7 +20,7 @@ export default async function getTracksFromDescription(description) {
 
   await Promise.all(songStrings.map(async (trackStr, index) => {
     try {
-      var fallbackData = splitNameAndArtist(trackStr);
+      var fallbackData = splitArtistAndName(trackStr);
       var trackInformation = await getMusicInformation(trackStr);
       const doSongsMatch = await isItTheSameSong(trackStr, trackInformation.trackName, trackInformation.artist);
       trackInformation.match = doSongsMatch.toLowerCase().replace(/[^a-z]/g, "") == "yes";
