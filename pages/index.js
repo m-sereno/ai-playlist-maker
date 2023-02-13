@@ -25,6 +25,7 @@ export default function Home() {
 
   async function onSubmit(event) {
     event.preventDefault();
+    setResult(Array(5).fill(null));
     try {
       const response = await fetch("/api/getTracksFromDescription", {
         method: "POST",
@@ -63,7 +64,7 @@ export default function Home() {
           <Typography variant="h3">
             Describe the songs in the Playlist
           </Typography>
-          <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 5 }}>
+          <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
             <TextField
               multiline minRows={4}
               type="text"
@@ -79,7 +80,7 @@ export default function Home() {
             </Button>
           </Box>
           <Box minWidth={theme.spacing(100)}>
-            {result == undefined ?
+          {result == undefined ?
               "" : result.map((e, index) => <TrackView trackInfo={e} key={index} />)}
           </Box>
         </Box>
