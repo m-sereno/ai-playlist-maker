@@ -1,4 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
+import MissingAPIKeyError from "../utils/errors/MisingAPIKeyError";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -7,7 +8,7 @@ const openai = new OpenAIApi(configuration);
 
 export default async function isItTheSameSong(songStringPre, songTitleFound, songArtistFound) {
   if (!configuration.apiKey) {
-    throw new Error("OpenAI API key not configured, please follow instructions in README.md");
+    throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
 
   const songStringResult = `- ${songArtistFound} | ${songTitleFound}`;

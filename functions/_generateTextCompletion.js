@@ -1,4 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
+import MissingAPIKeyError from "../utils/errors/MisingAPIKeyError";
+import InvalidDescriptionError from "../utils/errors/InvalidDescriptionError";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -7,12 +9,12 @@ const openai = new OpenAIApi(configuration);
 
 export default async function generateTextCompletion(description) {
   if (!configuration.apiKey) {
-    throw new Error("OpenAI API key not configured, please follow instructions in README.md");
+    throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
 
   
   if (description.trim().length === 0) {
-    throw new Error("Please enter a valid description");
+    throw new InvalidDescriptionError("Please enter a valid description");
   }
 
   const completion = await openai.createCompletion({
