@@ -1,4 +1,4 @@
-import generateTextCompletion from "./_generateTextCompletion";
+import suggestSongList from "./_suggestSongList";
 import getMusicInformation from "./_getMusicInformation";
 import isItTheSameSong from "./_isItTheSameSong";
 import whyIsThisSongHere from "./_whyIsThisSongHere";
@@ -13,10 +13,10 @@ function splitArtistAndName(trackStr) {
 export default async function getTracksFromDescription(description) {
   console.debug(`\nDescription:\n ${description}`);
 
-  const textCompletion = await generateTextCompletion(description);
-  console.debug(`Text Completion:\n ${textCompletion}`);
+  const songListSuggestion = await suggestSongList(description);
+  console.debug(`Text Completion:\n ${songListSuggestion}`);
 
-  const songStrings = textCompletion.split('\n');
+  const songStrings = songListSuggestion.split('\n');
   var tracks = Array(5).fill(null);
 
   await Promise.all(songStrings.map(async (trackStr, index) => {

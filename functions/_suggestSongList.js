@@ -7,7 +7,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export default async function generateTextCompletion(description) {
+export default async function suggestSongList(description) {
   if (!configuration.apiKey) {
     throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
