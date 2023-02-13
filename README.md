@@ -40,4 +40,4 @@ This is an AI Assisted Playlist Maker app powered by the [OpenAI API](https://pl
 
 You should now be able to access the app at [http://localhost:3000](http://localhost:3000)!
 
-![app](https://user-images.githubusercontent.com/10555891/218293723-7a10de9d-8246-4e52-904d-0ea191878314.jpg)
+![screenshot](https://user-images.githubusercontent.com/10555891/218359019-7c78cf74-896a-4f93-b1c3-a4236b39cfb8.jpg)
