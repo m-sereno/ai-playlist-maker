@@ -43,7 +43,7 @@ export default function Home() {
       setResult(data.result);
       setSongsDescriptionInput("");
     } catch (error) {
-      // Consider implementing your own error handling logic here
+      setResult(undefined);
       console.error(error);
       alert(error.message);
     }
@@ -80,7 +80,7 @@ export default function Home() {
             </Button>
           </Box>
           <Box minWidth={theme.spacing(100)}>
-          {result == undefined ?
+            {result == undefined ?
               "" : result.map((e, index) => <TrackView trackInfo={e} key={index} />)}
           </Box>
         </Box>
