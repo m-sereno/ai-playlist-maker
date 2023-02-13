@@ -1,5 +1,6 @@
 import { Box, Skeleton, Tooltip, Typography, useTheme } from "@mui/material";
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import InfoIcon from '@mui/icons-material/Info';
 import AudioPlayer from "./AudioPlayer";
 
 const TrackViewBox = (props) => (
@@ -47,6 +48,9 @@ export default function TrackView({ trackInfo }) {
           <Typography variant="body2" color={theme.palette.grey[400]}>{trackInfo.artist}</Typography>
           <AudioPlayer key={trackInfo.audioPreviewUrl} url={trackInfo.audioPreviewUrl} />
         </TitleArtistPlayerBox>
+        <Tooltip placement="left-start" arrow title={trackInfo.explanation}>
+          <InfoIcon sx={{ mb: "auto", mt: 1, ml: 1 }} />
+        </Tooltip>
       </TrackViewBox>
     );
   }

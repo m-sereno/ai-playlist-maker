@@ -1,6 +1,7 @@
 import generateTextCompletion from "./_generateTextCompletion";
 import getMusicInformation from "./_getMusicInformation";
 import isItTheSameSong from "./_isItTheSameSong";
+import whyIsThisSongHere from "./_whyIsThisSongHere";
 
 function splitArtistAndName(trackStr) {
   var str = trackStr.slice(2);
@@ -26,8 +27,11 @@ export default async function getTracksFromDescription(description) {
       trackInformation.match = doSongsMatch.toLowerCase().replace(/[^a-z]/g, "") == "yes";
       trackInformation.fallbackSong = fallbackData.trackName;
       trackInformation.fallbackArtist = fallbackData.artist;
-
       tracks[index] = trackInformation;
+      if (doSongsMatch == false){
+        return;
+      }
+      tracks[index].explanation = await whyIsThisSongHere(description, trackInformation.trackName, trackInformation.artist);
     } catch (error) {
       console.error(`Error when retrieving music information for \'${trackStr}\': ${error.message}`);
     }
