@@ -89,8 +89,8 @@ export default function TrackView({ trackInfo, tooltipOpenCallback }) {
         <TrackViewBox width="max-content">
           <AlbumCover><Skeleton variant="rectangular" width={80} height={80} /></AlbumCover>
           <TitleArtistPlayerBox>
-            <Typography variant="h6" color={theme.palette.grey[300]}>{trackInfo.trackTitle}</Typography>
-            <Typography variant="body2" color={theme.palette.grey[200]}>{trackInfo.artist}</Typography>
+            <Typography variant="h6" color={theme.palette.grey[900]}>{trackInfo.trackTitle}</Typography>
+            <Typography variant="body2" color={theme.palette.grey[900]}>{trackInfo.artist}</Typography>
           </TitleArtistPlayerBox>
         </TrackViewBox>
       );
