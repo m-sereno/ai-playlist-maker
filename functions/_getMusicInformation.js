@@ -1,3 +1,4 @@
+import isItTheSameSong from "./_isItTheSameSong";
 import SpotifyWebApi from "spotify-web-api-node";
 
 const spotifyApi = new SpotifyWebApi({
@@ -5,10 +6,11 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_API_CLIENT_SECRET
 });
 
-export default async function getMusicInformation(songString) {
-  if (songString.trim().length === 0) {
-    throw new Error("Blank song name");
-  }
+export default async function getMusicInformation(trackTitle, artist) {
+  if (trackTitle == "")
+    throw new Error('Blank tracktitle');
+  if (artist == "")
+    throw new Error('Blank artist');
 
   await spotifyApi
     .clientCredentialsGrant()
@@ -17,23 +19,33 @@ export default async function getMusicInformation(songString) {
       spotifyApi.setAccessToken(data.body['access_token']);
     });
 
-  const resultBody = await spotifyApi.searchTracks(songString)
-    .then(function (data) {
+  const resultBody = {
+    trackTitle: "",
+    artist: "",
+    albumCover: "",
+    audioPreviewUrl: "",
+    isMatch: false
+  };
+
+  await spotifyApi.searchTracks(trackTitle + " " + artist)
+    .then(async function (data) {
       const resultCount = data.body.tracks.items.length;
       if (resultCount == 0) {
         throw new Error('No results');
       }
       const bestResult = data.body.tracks.items[0];
-      const resultBody = {
-        trackName: bestResult.name,
-        artist: bestResult.artists.map(a => a.name).join(", "),
-        albumCover: bestResult.album.images[0].url,
-        audioPreviewUrl: bestResult.preview_url
-      };
-      return resultBody;
+
+      resultBody.trackTitle = bestResult.name;
+      resultBody.artist = bestResult.artists.map(a => a.name).join(", ");
+      resultBody.albumCover = bestResult.album.images[0].url;
+      resultBody.audioPreviewUrl = bestResult.preview_url;
+      resultBody.isMatch = await isItTheSameSong(trackTitle, artist, resultBody.trackTitle, resultBody.artist);
+      
     }, function (error) {
       throw error;
     });
 
+  console.debug(`MUSIC INFORMATION FOR \"${artist} | ${trackTitle}\"`);
+  console.dir(resultBody);
   return resultBody;
 }

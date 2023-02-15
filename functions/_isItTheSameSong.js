@@ -6,12 +6,13 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export default async function isItTheSameSong(songStringPre, songTitleFound, songArtistFound) {
+export default async function isItTheSameSong(songTitlePre, songArtistPre, songTitleFound, songArtistFound) {
   if (!configuration.apiKey) {
     throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
 
-  const songStringResult = `- ${songArtistFound} | ${songTitleFound}`;
+  const songStringPre = `${songArtistPre} | ${songTitlePre}`;
+  const songStringResult = `${songArtistFound} | ${songTitleFound}`;
 
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
@@ -20,7 +21,8 @@ export default async function isItTheSameSong(songStringPre, songTitleFound, son
     max_tokens: 2
   });
 
-  return completion.data.choices[0].text;
+  const doSongsMatch = completion.data.choices[0].text;
+  return doSongsMatch.toLowerCase().replace(/[^a-z]/g, "") == "yes";
 }
 
 function generatePrompt(songStringPre, songStringResult) {

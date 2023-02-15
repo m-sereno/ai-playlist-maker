@@ -6,22 +6,24 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-export default async function whyIsThisSongHere(playlistDescription, trackName, artist) {
+export default async function whyIsThisSongHere(playlistDescription, trackTitle, artist) {
   if (!configuration.apiKey) {
     throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
 
   const completion = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt: generatePrompt(playlistDescription, trackName, artist),
+    prompt: generatePrompt(playlistDescription, trackTitle, artist),
     temperature: 0.6,
     max_tokens: 200
   });
 
-  return completion.data.choices[0].text;
+  var explanation = completion.data.choices[0].text;
+  console.debug(`EXPLANATION FOR \"${artist} | ${trackTitle}\"\n${explanation}`);
+  return explanation
 }
 
-function generatePrompt(playlistDescription, trackName, artist) {
+function generatePrompt(playlistDescription, trackTitle, artist) {
   return `Provide an explanation as to why a song is present in a given playlist.
 Examples:
 
@@ -55,7 +57,7 @@ In other words, you only ever play one note at a time, even though you are using
 DESCRIPTION:
 ${playlistDescription}
 SONG:
-${artist} | ${trackName}
+${artist} | ${trackTitle}
 EXPLANATION:
 `;
 }

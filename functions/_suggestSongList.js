@@ -12,7 +12,6 @@ export default async function suggestSongList(description) {
     throw new MissingAPIKeyError("OpenAI API key not configured, please follow instructions in README.md");
   }
 
-  
   if (description.trim().length === 0) {
     throw new InvalidDescriptionError("Please enter a valid description");
   }
@@ -24,7 +23,12 @@ export default async function suggestSongList(description) {
     max_tokens: 160
   });
 
-  return completion.data.choices[0].text;
+  var rawText = completion.data.choices[0].text;
+  var songList = textToList(rawText);
+
+  console.log("\nSUGGESTIONS");
+  console.table(songList);
+  return songList;
 }
 
 function generatePrompt(songsDescription) {
@@ -57,4 +61,19 @@ ${songsDescription}
 
 Songs:
 `;
+}
+
+function textToList(rawText) {
+  var songStrings = rawText.split('\n');
+
+  var songList = songStrings.map((trackStr, index) => {
+    if (trackStr.trim() == "") {
+      return null;
+    }
+    var str = trackStr.slice(2);
+    var [artist, trackTitle] = str.split('|').map(s => s.trim());
+    return { trackTitle: trackTitle, artist: artist };
+  });
+
+  return songList.filter(x => x);
 }
