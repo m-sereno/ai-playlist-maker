@@ -10,7 +10,7 @@ export const TRACK_STATUS_LOADING_DETAIL = 1;
 export const TRACK_STATUS_SUCCESS = 2;
 
 const TrackViewBox = (props) => (
-  <Box width="max-content" height={100} display="flex" flexDirection="row" alignItems="center" sx={{ m: .5 }}>
+  <Box height={100} display="flex" flexDirection="row" alignItems="center" sx={{ m: .5 }}>
     {props.children}
   </Box>
 );
@@ -61,7 +61,7 @@ export default function TrackView({ trackInfo, tooltipOpenCallback }) {
     case TRACK_STATUS_ERROR:
       return (
         <CustomWidthTooltip placement="right" title={<Typography variant="body2" whiteSpace="pre-line">{`This song couldn't be found on Spotify.\nMaybe it doesn't exist.`}</Typography>}>
-          <Box width="max-content" height={100} display="flex" flexDirection="row" alignItems="center" sx={{ m: .5 }}>
+          <Box height={100} display="flex" flexDirection="row" alignItems="center" sx={{ m: .5 }}>
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ width: 80, height: 80 }}>
               <QuestionMarkIcon fontSize="large" />
             </Box>
@@ -86,7 +86,7 @@ export default function TrackView({ trackInfo, tooltipOpenCallback }) {
 
     case TRACK_STATUS_LOADING_DETAIL:
       return (
-        <TrackViewBox width="max-content">
+        <TrackViewBox>
           <AlbumCover><Skeleton variant="rectangular" width={80} height={80} /></AlbumCover>
           <TitleArtistPlayerBox>
             <Typography variant="h6" color={theme.palette.grey[900]}>{trackInfo.trackTitle}</Typography>
@@ -97,7 +97,7 @@ export default function TrackView({ trackInfo, tooltipOpenCallback }) {
 
     case TRACK_STATUS_SUCCESS:
       return (
-        <TrackViewBox width="max-content">
+        <TrackViewBox>
           <AlbumCover src={trackInfo.albumCover} />
           <TitleArtistPlayerBox>
             <Typography variant="h6">{trackInfo.trackTitle}</Typography>

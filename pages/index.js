@@ -221,8 +221,8 @@ export default function Home() {
 
       <Container>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 8 }}>
-          <PlaylistAddIcon color="primary" fontSize="large" />
-          <Typography variant="h3">
+          <PlaylistAddIcon color="primary" sx={{ fontSize: { lg: 35, md: 32, sm: 27, xs: 25 } }} />
+          <Typography sx={{ typography: { lg: 'h3', md: 'h4', sm: 'h5', xs: 'h6' } }}>
             Describe the songs in the Playlist
           </Typography>
           <Box component="form" width={theme.spacing(80)} onSubmit={onSubmit} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
@@ -235,12 +235,13 @@ export default function Home() {
               value={songsDescriptionInput}
               onChange={(e) => setSongsDescriptionInput(e.target.value)}
               fullWidth
+              sx={{ width: { lg: 650, md: 600, sm: 550, xs: "90vw" } }}
             />
             <Button type="submit" variant="contained" value="Generate recommendations" sx={{ my: 2 }}>
               Submit
             </Button>
           </Box>
-          <Box minWidth={theme.spacing(100)}>
+          <Box sx={{ width: { xl: '40vw', lg: '45vw', md: '50vw', sm: '65vw', xs: '90vw' } }}>
             {trackInfos.map((e, index) => <TrackView trackInfo={e} tooltipOpenCallback={() => handleTooltipOpen(index)} key={index} />)}
           </Box>
         </Box>
